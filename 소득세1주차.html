@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Only 전략 센터 - 펀펀 세법2</title>
+<meta property="og:image" content="https://funfuntax-jose.pages.dev/quiz1-thumb.png">
+<meta property="og:title" content="제37회 공인중개사 합격 프로젝트">
+<meta property="og:description" content="하루 5분 학습으로 세법 마스터!">
+<style>
+:root { --main-sky: #60a5fa; --soft-blue: #93c5fd; --point-blue: #3b82f6; --bg-light: #f8fafc; --gray-btn: #e2e8f0; --text-main: #334155; --my-only-pink: #f43f5e; --amber-500: #f59e0b; }
+body { font-family: 'Pretendard', sans-serif; background-color: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; }
+.container { background: #ffffff; padding: 1rem 1.5rem; border-radius: 40px; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); width: 100%; max-width: 480px; min-height: 620px; text-align: center; box-sizing: border-box; position: relative; display: flex; flex-direction: column; }
+.container::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: linear-gradient(90deg, var(--main-sky), var(--soft-blue)); border-radius: 40px 40px 0 0; }
+.tabs { display: flex; gap: 8px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+.tab { padding: 8px 16px; border-radius: 12px; background: #f1f5f9; color: #94a3b8; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
+.tab.active { background: var(--main-sky); color: white; }
+.attendance-bar { display: flex; justify-content: space-between; background: #f8fafc; padding: 12px 6px; border-radius: 20px; margin: 20px 0 10px 0; border: 1px solid #e2e8f0; position: relative; z-index: 1; }
+.stamp-slot { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; position: relative; z-index: 10; }
+.stamp-circle { width: 38px; height: 38px; border-radius: 50%; border: 1.5px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; background: #fff; position: relative; pointer-events: none; }
+.stamp-circle img { width: 55px; height: 55px; object-fit: contain; position: absolute; max-width: none; z-index: 5; }
+.stamp-circle.check { color: #3b82f6; font-weight: 900; font-size: 1.2rem; border-style: solid; }
+.stamp-label { font-size: 0.7rem; font-weight: 800; color: #64748b; pointer-events: none; }
+.choice-item { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 8px 0; border: none; background: transparent; width: 100%; position: relative; }
+.star-btn { font-size: 1.3rem; color: #cbd5e1; padding-left: 10px; cursor: pointer; transition: 0.2s; z-index: 10; }
+.star-btn.active { color: #fbbf24; transform: scale(1.2); }
+.my-only-wrapper { margin-top: 40px; text-align: center; padding-bottom: 20px; }
+.my-only-btn { display: inline-block; padding: 16px 32px; background: #fff; color: var(--my-only-pink); border: 2.5px solid #fecdd3; border-radius: 30px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(244, 63, 94, 0.08); transition: 0.3s; }
+#member-page { display: none; flex-direction: column; align-items: center; justify-content: center; flex: 1; }
+.auth-card { background: #fff; padding: 30px; border-radius: 30px; border: 1px solid #fecdd3; width: 100%; box-sizing: border-box; }
+.auth-input { width: 100%; padding: 15px; margin: 8px 0; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; box-sizing: border-box; }
+.auth-submit { width: 100%; padding: 16px; background: var(--my-only-pink); color: #fff; border: none; border-radius: 12px; font-weight: 800; margin-top: 15px; cursor: pointer; }
+.day-nav { display: flex; justify-content: flex-start; gap: 8px; margin-bottom: 25px; padding-left: 5px; }
+.day-circle { width: 36px; height: 36px; border-radius: 12px; border: 1.5px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: white; font-size: 0.9rem; }
+.day-circle.active { background: var(--main-sky); color: white; border-color: var(--main-sky); }
+h1 { font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0; margin-bottom: 1rem; text-align: left; padding-left: 5px; }
+.menu-btn { width: 100%; padding: 1.25rem; margin-bottom: 0; border: none; border-radius: 20px; background: #fff; color: var(--text-main); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; }
+.question-text { font-size: 1.2rem; font-weight: 700; line-height: 1.5; margin-bottom: 0.8rem; color: var(--text-main); text-align: left; padding-left: 5px; word-break: keep-all; min-height: auto; }
+.options-multi { display: grid; gap: 6px; text-align: left; }
+.choice-num { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; min-width: 30px; background: #fff; border-radius: 50%; margin-right: 12px; font-weight: 800; color: var(--main-sky); border: 1.5px solid var(--soft-blue); z-index: 2; position: relative; }
+.choice-item.selected .choice-num { background: var(--main-sky); color: white; border-color: var(--main-sky); }
+.explanation-box { margin-top: 8px; padding: 15px; border-radius: 15px; background: #f8fafc; border-left: 4px solid var(--main-sky); display: none; font-size: 1rem; color: var(--text-main); font-weight: 600; line-height: 1.6; text-align: left; word-break: keep-all; }
+.nav-btns { display: flex; gap: 10px; margin-top: auto; padding-top: 1.5rem; }
+.nav-btn { flex: 1; padding: 1.1rem; border-radius: 16px; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; }
+.prev-btn { background: var(--gray-btn); color: #64748b; }
+.next-btn { background: var(--point-blue); color: #fff; }
+.result-page { display: none; flex-direction: column; align-items: center; justify-content: center; flex: 1; }
+.reset-btn { width: 100%; padding: 1.25rem; border-radius: 20px; border: none; background: var(--main-sky); color: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+.particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; opacity: 0; z-index: 10; }
+@keyframes firework { 0% { transform: translate(0, 0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)); opacity: 0; } }
+
+/* 플래시 카드 스타일 */
+#flash-card-page { display: none; flex-direction: column; align-items: center; justify-content: center; flex: 1; }
+.card-container { width: 100%; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
+.card { width: 100%; height: 260px; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
+.card.flipped { transform: rotateY(180deg); }
+.card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 30px; padding: 25px; box-sizing: border-box; box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+.card-front { background: #fffbeb; border: 3px solid var(--amber-500); color: var(--text-main); }
+.card-back { background: var(--amber-500); color: #fff; transform: rotateY(180deg); }
+.flash-hint { font-size: 0.85rem; color: #94a3b8; margin-top: 15px; font-weight: 600; }
+.flash-q { font-size: 1.25rem; font-weight: 800; word-break: keep-all; line-height: 1.4; }
+.flash-a { font-size: 1.35rem; font-weight: 800; word-break: keep-all; line-height: 1.4; }
+#welcome-message { text-align: left; padding-left: 5px; margin-top: 0 !important; margin-bottom: 2px; }
+</style>
+</head>
+<body onclick="unlockAudio()">
+<div class="container">
+<div class="tabs">
+    <div id="tab-1" class="tab" onclick="switchWeek(1)">1주차</div>
+</div>
+
+<div id="menu-page" class="page-content" style="display:none;">
+    <p id="welcome-message" style="font-size: 0.95rem; color: #64748b; margin-bottom: 8px; font-weight: 600; line-height: 1.5;"></p>
+    <h1 id="menu-h1" style="margin-top: 0;">소득세</h1>
+    
+    <button class="menu-btn" onclick="startQuizWithTodayMax()"><span id="m-btn-label">소득세 1주차</span><span>✏️</span></button>
+    <button class="menu-btn" style="margin-top:1rem;" onclick="startQuiz('ox1')"><span id="o-btn-label">소득세 1주차 OX 퀴즈</span><span>🔥</span></button>
+    
+    <div class="attendance-bar" id="attendance-bar">
+        <div class="stamp-slot" onclick="checkDateAndStart(0)"><div class="stamp-circle" id="s-0"></div><span class="stamp-label">월</span></div>
+        <div class="stamp-slot" onclick="checkDateAndStart(1)"><div class="stamp-circle" id="s-1"></div><span class="stamp-label">화</span></div>
+        <div class="stamp-slot" onclick="checkDateAndStart(2)"><div class="stamp-circle" id="s-2"></div><span class="stamp-label">수</span></div>
+        <div class="stamp-slot" onclick="checkDateAndStart(3)"><div class="stamp-circle" id="s-3"></div><span class="stamp-label">목</span></div>
+        <div class="stamp-slot" onclick="checkDateAndStart(4)"><div class="stamp-circle" id="s-4"></div><span class="stamp-label">금</span></div>
+        <div class="stamp-slot" onclick="checkDateAndStart(5)"><div class="stamp-circle" id="s-5"></div><span class="stamp-label">주말</span></div>
+        <div class="stamp-slot" onclick="startFlashQuiz()">
+            <div class="stamp-circle" style="border-style: solid; border-color: #f59e0b; color: #f59e0b; font-size: 1.5rem; font-weight: 900; background: #fffbeb;">⚡</div>
+            <span class="stamp-label" style="color: #f59e0b; font-weight: 900;">퀴즈</span>
+        </div>
+    </div>
+    <div class="my-only-wrapper">
+        <div class="my-only-btn" onclick="handleMyOnlyClick()">My Only 오답노트 확인하기 🔒</div>
+    </div>
+</div>
+
+<div id="quiz-page" style="display: none; flex-direction: column; flex: 1;">
+<div id="day-nav-wrapper" class="day-nav" style="display: none;">
+<div class="day-circle">월</div><div class="day-circle">화</div><div class="day-circle">수</div><div class="day-circle">목</div><div class="day-circle">금</div>
+</div>
+<div id="ox-title" style="display: none; font-size: 1.1rem; font-weight: 800; color: var(--main-sky); margin-bottom: 20px; text-align: left; padding-left: 5px;"></div>
+<div id="q-text" class="question-text"></div>
+<div id="options-multi" class="options-multi" style="display: none;"></div>
+<div id="options-ox" style="display: none; gap: 15px; margin-bottom: 15px;">
+<button id="btn-O" class="ox-btn" style="flex:1; padding:20px; border-radius:15px; border:1px solid #e2e8f0; font-size:1.5rem; font-weight:800; background:#fff;" onclick="handleOX('O')">O</button>
+<button id="btn-X" class="ox-btn" style="flex:1; padding:20px; border-radius:15px; border:1px solid #e2e8f0; font-size:1.5rem; font-weight:800; background:#fff;" onclick="handleOX('X')">X</button>
+</div>
+<div id="exp-box" class="explanation-box"></div>
+<div class="nav-btns">
+<button id="prev-btn" class="nav-btn prev-btn" onclick="goPrev()">◀ 이전</button>
+<button id="next-btn" class="nav-btn next-btn" onclick="handleNext()">다음 ▶</button>
+</div>
+</div>
+
+<div id="flash-card-page">
+    <div style="margin-bottom: 20px; font-weight: 800; color: var(--amber-500); font-size: 1.1rem;" id="flash-progress">1 / 10</div>
+    <div class="card-container" onclick="handleCardClick()">
+        <div class="card" id="main-flash-card">
+            <div class="card-face card-front">
+                <div class="flash-q" id="flash-q-text">질문</div>
+                <div class="flash-hint" id="flash-hint-text">힌트</div>
+            </div>
+            <div class="card-face card-back">
+                <div class="flash-a" id="flash-a-text">정답</div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-btns" style="width: 100%; margin-top: 20px; display: flex; gap: 10px;">
+        <button id="flash-prev-btn" class="nav-btn" style="width: 100%; background: #fff; color: var(--main-sky); border: 2px solid var(--soft-blue); font-weight: 800; border-radius: 16px; padding: 1.1rem; cursor: pointer; transition: 0.2s;" onclick="goPrevFlash()">◀ 이전</button>
+    </div>
+    <p style="font-size: 0.9rem; color: #94a3b8; font-weight: 600; margin-top: 15px;">카드 터치: 정답 확인 / 정답 본 후 터치: 다음 이동 ⚡</p>
+</div>
+
+<div id="my-only-page" style="display: none; flex-direction: column; flex: 1; padding: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px solid #fecdd3; padding-bottom: 10px;">
+        <div style="text-align: left;">
+            <h2 style="color: var(--my-only-pink); margin: 0; font-size: 0.9rem; font-weight: 800; letter-spacing: -0.5px;">오답 노트</h2>
+            <p id="my-only-subtitle" style="font-size: 0.75rem; color: #94a3b8; margin: 2px 0 0 0;"></p>
+        </div>
+        <button type="button" onclick="showArchivePage()" style="background: var(--point-blue); border: none; padding: 8px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; color: #fff; cursor: pointer; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);">보관함 →</button>
+    </div>
+    <div id="wrong-answer-list" style="width: 100%; text-align: left; overflow-y: auto; max-height: 480px; padding-right: 5px;"></div>
+    <button type="button" class="reset-btn" onclick="showMenu()" style="margin-top: auto; background: #f1f5f9; color: #64748b; font-size: 0.9rem; border: none; padding: 15px; border-radius: 20px; font-weight: 700;">메인으로 돌아가기</button>
+</div>
+
+<div id="archive-page" style="display: none; flex-direction: column; flex: 1; padding: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1 style="color: #64748b; margin: 0; font-size: 1.5rem;">보관함</h1>
+        <button type="button" onclick="showMyOnlyPage()" style="background: var(--my-only-pink); border: none; padding: 8px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; color: #fff; cursor: pointer;">오답노트 이동 ←</button>
+    </div>
+    <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px; text-align: left;">삭제된 문제들이 보관되는 임시 장소입니다.</p>
+    <div id="archive-list" style="width: 100%; text-align: left; overflow-y: auto; max-height: 400px;">
+        <p style="text-align: center; color: #94a3b8; margin-top: 50px;">보관함이 비어 있습니다. 😊</p>
+    </div>
+    <button type="button" class="reset-btn" onclick="showMenu()" style="margin-top: auto; background: #f1f5f9; color: #64748b; font-size: 0.9rem; border: none; padding: 15px; border-radius: 20px; font-weight: 700;">메인으로 돌아가기</button>
+</div>
+
+<div id="member-page">
+    <div class="auth-card">
+        <h2 style="color:var(--my-only-pink); margin-top:0;">My Only 전략 센터</h2>
+        <p style="font-size:0.9rem; color:#64748b; margin-bottom:20px;">이름과 부여받은 회원번호를 입력하여<br>나만의 오답노트를 활성화하세요.</p>
+        <input type="text" id="user-name" class="auth-input" placeholder="이름을 입력하세요 (예: 홍길동)">
+        <input type="text" id="user-code" class="auth-input" placeholder="회원번호 입력 (대소문자 구분)">
+        <button class="auth-submit" onclick="handleAuth()">인증 및 입장</button>
+        <button onclick="showMenu()" style="width: 100%; padding: 15px; background: white; color: #64748b; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer;">비회원 로그인 (일반 학습)</button>
+        <p style="margin-top:20px; font-size:0.82rem; color:#94a3b8;">* 번호가 없는 분들은 비회원으로 학습 가능합니다.</p>
+    </div>
+</div>
+
+<div id="result-page" class="result-page">
+<div id="res-img" style="font-size: 5rem; margin-bottom: 1rem;">🏆</div>
+<div id="res-score" style="font-size: 4rem; font-weight: 900; color: var(--main-sky); margin-bottom: 1rem;">0점</div>
+<p id="res-comment" style="font-weight: 700; margin-bottom: 2rem; color: var(--text-main); white-space: pre-wrap;"></p>
+<button class="reset-btn" onclick="showMenu()">처음으로 돌아가기</button>
+</div>
+<p style="text-align: center; font-size: 0.55rem; color: #94a3b8; margin-top: 30px; margin-bottom: 10px;">Copyright 2026. 펀펀 세법2. All rights reserved.</p>
+</div>
+
+<audio id="snd-correct" src="https://funfuntax.netlify.app/correct.mp3" preload="auto"></audio>
+
+<script>
+let unlocked = false;
+function unlockAudio() { if(!unlocked) { const s = document.getElementById('snd-correct'); s.play().then(()=>{s.pause();s.currentTime=0;unlocked=true;}); } }
+
+const weekData = {
+1: {
+multi1: [
+{      q: "1. 소득세법상 거주자의 국내 소재 주택 임대소득에 관한 설명으로 틀린 것은?",
+    choices: [
+      "주택 1채만을 소유한 거주자가 과세기간 종료일 현재 기준시가 10억원인 해당 주택을 전세금을 받고 임대하여 얻은 소득에 대해서는 소득세가 과세되지 아니한다.",
+      "주택 2채를 소유한 거주자가 1채는 월세계약, 다른 1채는 전세계약의 형태로 임대한 경우 월세계약에 의하여 받은 임대료에 대해서만 소득세가 과세된다.",
+      "거주자의 보유주택 수를 계산함에 있어서 다가구주택은 1개의 주택으로 보되, 구분등기된 경우에는 각각을 1개의 주택으로 계산한다.",
+      "부부가 각각 주택을 1채씩 보유하여 총 2주택을 소유한 상태에서 그 중 1주택을 월세로 임대하고 연간 1,800만원의 임대료를 받았을 경우, 1주택자 비과세가 적용되어 과세소득은 발생하지 않는다.",
+      "주택을 임대하여 얻은 소득은 거주자가 관할 세무서에 사업자등록을 하지 않은 경우에도 소득세 납세의무가 있다."
+    ],
+    a: 4,
+    exps: [
+      "맞는 지문입니다. 1주택 소유자의 임대소득은 원칙적으로 비과세되며, 3주택 미만이므로 전세 보증금에 대한 간주임대료도 과세되지 않습니다.",
+      "맞는 지문입니다. 2주택자의 경우 월세 수입은 과세되지만, 보증금에 대한 간주임대료는 3주택 이상부터 적용되므로 전세금은 과세되지 않습니다.",
+      "맞는 지문입니다. 다가구주택은 단독주택으로 보아 1개의 주택으로 계산하는 것이 원칙입니다.",
+      "틀린 지문입니다(정답). 주택 수 계산 시 부부의 주택은 합산하므로 2주택자에 해당합니다. 2주택자의 월세 임대수입(1,800만원)은 소득세 과세대상입니다.",
+      "맞는 지문입니다. 사업자등록 여부와 관계없이 세법상 과세요건을 충족하면 주택임대소득에 대한 소득세 납세의무가 발생합니다."
+    ]
+  },
+  {
+    q: "2. 소득세법령상 거주자의 부동산과 관련된 사업소득(임대업 등)에 관한 설명으로 옳은 것은?",
+    choices: [
+      "해당 과세기간의 종합소득금액이 있는 거주자는 그 종합소득 과세표준을 다음 연도 5월 1일부터 5월 31일까지 신고하여야 하며, 분리과세 주택임대소득만 있는 경우에도 원칙적으로 이를 적용한다.",
+      "공장재단이나 광업재단을 대여하는 사업은 부동산임대업에서 발생하는 사업소득에 해당하지 않는다.",
+      "해당 과세기간의 주거용 건물 임대업(주택임대업)을 제외한 일반 상가 등 부동산 임대업에서 발생한 결손금은 그 과세기간의 종합소득 과세표준을 계산할 때 공제한다.",
+      "「공익사업을 위한 토지 등의 취득 및 보상에 관한 법률」에 따른 공익사업과 관련하여 지역권을 설정하거나 대여함으로써 발생하는 소득은 부동산업에서 발생하는 사업소득에 해당한다.",
+      "사업소득에 부동산임대업에서 발생한 소득이 포함되어 있는 사업자는 그 소득별로 구분하지 않고 전체를 합산하여 장부에 회계처리하여야 한다."
+    ],
+    a: 1,
+    exps: [
+      "맞는 지문입니다(정답). 종합소득이 있는 거주자는 원칙적으로 5월에 확정신고를 해야 하며, 분리과세 주택임대소득이 있는 경우에도 종합소득 과세표준 신고 의무가 있습니다.",
+      "틀린 지문입니다. 공장재단 및 광업재단의 대여 사업은 부동산임대업(사업소득)에 해당합니다.",
+      "틀린 지문입니다. 주택임대업에서 발생한 결손금은 다른 종합소득에서 공제할 수 있으나, 상가 등 일반 부동산임대업의 결손금은 타 소득에서 공제할 수 없습니다.",
+      "틀린 지문입니다. 공익사업과 관련하여 지역권 및 지상권을 설정·대여하고 받는 소득은 사업소득이 아니라 '기타소득'으로 분리되어 과세됩니다.",
+      "틀린 지문입니다. 부동산임대업 소득과 그 외의 사업소득이 함께 있는 경우에는 소득별로 명확히 구분하여 회계처리하여야 합니다."
+    ]
+  },
+  {
+    q: "3. 소득세법상 거주자의 주택임대소득 과세 및 간주임대료 총수입금액 산정에 관한 설명으로 틀린 것은?",
+    choices: [
+      "1주택을 소유하는 자의 주택임대소득은 모두 비과세되므로, 과세기간 종료일 현재 기준시가가 15억 원인 주택을 1채 보유한 자가 이를 월세로 임대한 경우에도 소득세가 과세되지 않는다.",
+      "3주택 이상을 소유하고 해당 주택의 보증금 등의 합계액이 3억 원을 초과하는 거주자의 경우 법령에 따라 산정한 간주임대료를 총수입금액에 산입한다.",
+      "간주임대료 계산 시 3주택 이상 여부를 판정할 때, 1세대당 주거전용면적이 40제곱미터 이하이고 해당 과세기간의 기준시가가 2억 원 이하인 소형주택은 주택 수에 포함하지 아니한다.",
+      "국외에 소재하는 주택을 임대하여 발생하는 소득은 거주자가 1주택만을 소유하고 있더라도 비과세 특례가 배제되어 전액 과세대상에 해당한다.",
+      "임대보증금에 대한 간주임대료를 계산할 때 해당 임대보증금 운용을 통해 발생한 수입이자와 배당금 등 금융수익을 차감하여 총수입금액을 산정한다."
+    ],
+    a: 1,
+    exps: [
+      "틀린 지문입니다(정답). 1주택자의 주택임대소득은 원칙적으로 비과세되나, 과세기간 종료일 기준 '기준시가 12억 원을 초과'하는 고가주택의 월세 소득은 예외적으로 소득세가 과세됩니다.",
+      "맞는 지문입니다. 보증금 등에 대한 간주임대료는 '3주택 이상' & '보증금 합계액 3억 원 초과' 시에만 수입금액으로 과세됩니다.",
+      "맞는 지문입니다. 전용면적 40㎡ 이하이면서 기준시가 2억 원 이하인 소형주택은 간주임대료 산정 대상 주택 수에서 제외됩니다.",
+      "맞는 지문입니다. 국외 소재 주택 임대소득은 고가주택 여부나 주택 수와 관계없이 무조건 사업소득으로 과세됩니다.",
+      "맞는 지문입니다. 보증금의 간주임대료 계산 시 이중과세를 막기 위해 발생한 금융수익(수입이자, 할인료, 수입배당금 등)은 차감해 줍니다."
+    ]
+  },
+  {
+    q: "4. 소득세법상 거주자가 다음의 국내 소재 자산을 대여(임대)하고 금품을 받았을 때, 부동산임대업에서 발생하는 '사업소득' 과세대상에 해당하는 것은?",
+    choices: [
+      "미등기된 부동산임차권을 대여하고 받는 금품",
+      "부동산을 취득할 수 있는 권리를 양도하고 받는 금품",
+      "「공익사업을 위한 토지 등의 취득 및 보상에 관한 법률」에 따라 공익사업과 관련하여 지상권을 설정하고 받는 금품",
+      "주택에 설정된 전세권을 타인에게 양도하고 받는 금품",
+      "자기가 건설한 상가건물에 부속된 영업권을 단독으로 양도하고 받는 금품"
+                ],
+                a: 1,
+                exps: [
+                    "맞는 지문입니다(정답). 부동산 또는 부동산상의 권리(전세권, 임차권)를 대여하고 발생하는 소득은 등기 여부를 불문하고 사업소득(부동산임대업)으로 과세됩니다.",
+                    "틀린 지문입니다. 부동산을 취득할 수 있는 권리의 '대여'가 아닌 '양도'는 양도소득세 과세대상입니다.",
+                    "틀린 지문입니다. 공익사업과 관련된 지상권/지역권 설정 및 대여 소득은 '기타소득'으로 분리되어 과세됩니다.",
+                    "틀린 지문입니다. 전세권의 대여가 아닌 '양도'는 양도소득에 해당합니다.",
+                    "틀린 지문입니다. 영업권의 '양도'는 양도소득(부동산과 함께 양도시) 또는 기타소득(단독 양도시)에 해당합니다."
+                ]
+            },
+            {
+                q: "5. 소득세법상 거주자의 부동산 관련 소득세 납세절차 및 납세의무 성립에 관한 설명으로 틀린 것은?",
+                choices: [
+                    "거주자의 부동산임대업에 따른 사업소득에 대한 소득세 납세의무 성립시기는 원칙적으로 과세기간이 끝나는 때(매년 12월 31일)이다.",
+                    "부동산임대업에서 발생하는 사업소득의 납세지는 원칙적으로 임대수익이 발생하는 해당 부동산의 소재지로 한다.",
+                    "중간예납하는 소득세의 납세의무 성립시기는 중간예납기간(1월 1일 ~ 6월 30일)이 끝나는 때이다.",
+                    "거주자의 양도소득에 대한 지방소득세의 납세의무 성립시기는 그 과세표준이 되는 양도소득세의 납세의무가 성립하는 때이다.",
+                    "해당 과세기간에 부동산임대업 사업소득이 발생한 자는 다음 연도 5월 1일부터 5월 31일까지 관할 세무서장에게 종합소득 과세표준 확정신고를 하여야 한다."
+                ],
+                a: 2,
+                exps: [
+                    "맞는 지문입니다. 종합소득세의 원칙적인 납세의무 성립시기는 과세기간이 끝나는 때입니다.",
+                    "틀린 지문입니다(정답). 사업소득(종합소득세)의 납세지는 부동산 소재지가 아니라 해당 거주자의 '주소지'를 관할하는 세무서로 하는 것이 원칙입니다.",
+                    "맞는 지해당 소득세의 납세의무 성립시기는 중간예납기간이 끝나는 때이다.",
+                    "맞는 지문입니다. 양도소득에 대한 지방소득세는 본세인 양도소득세의 성립시기와 동일하게 연동됩니다.",
+                    "맞는 지문입니다. 부동산임대소득이 있는 자는 다음 해 5월 종합소득세 확정신고 기간에 신고할 의무가 있습니다."
+                ]
+            }
+        ],
+        ox1: [],
+        flash: []
+    }
+};
+
+let curWeek = 1; let curType = ''; let curIdx = 0;
+let userAnswers = {}; let clickCounts = {};
+let flashIdx = 0; let isFlashFlipping = false;
+let allowedMaxIdx = 4;
+
+const STAMPS = { 100: "출석도장 100점.png", 80: "출석도장 80점 이상.png", 50: "출석도장 50점 이상.png", check: "✔" };
+const ALL_PAGES = ['menu-page', 'quiz-page', 'flash-card-page', 'member-page', 'result-page', 'my-only-page', 'archive-page'];
+
+const openDates = {
+    0: { date: "2026-06-08", label: "6월 8일 (월)" },
+    1: { date: "2026-06-09", label: "6월 9일 (화)" },
+    2: { date: "2026-06-10", label: "6월 10일 (수)" },
+    3: { date: "2026-06-11", label: "6월 11일 (목)" },
+    4: { date: "2026-06-12", label: "6월 12일 (금)" },
+    5: { date: "2026-06-13", label: "6월 13일 (주말)" }
+};
+
+function getTodayMaxIdx() {
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const kst = new Date(utc + (3600000 * 9));
+    const todayStr = `${kst.getFullYear()}-${String(kst.getMonth() + 1).padStart(2, '0')}-${String(kst.getDate()).padStart(2, '0')}`;
+    const latestWeek = Object.keys(weekData).length;
+
+    if (curWeek < latestWeek || todayStr >= openDates[4].date) {
+        return 4;
+    }
+    let currentMax = 0;
+    for (let i = 0; i <= 4; i++) {
+        if (todayStr >= openDates[i].date) currentMax = i;
+    }
+    return currentMax;
+}
+
+function checkDateAndStart(targetIdx) {
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const kst = new Date(utc + (3600000 * 9));
+    const todayStr = `${kst.getFullYear()}-${String(kst.getMonth() + 1).padStart(2, '0')}-${String(kst.getDate()).padStart(2, '0')}`;
+    const latestWeek = Object.keys(weekData).length;
+
+    if (curWeek < latestWeek || todayStr >= openDates[4].date) {
+        allowedMaxIdx = 4;
+        startQuiz('multi1', targetIdx);
+        return;
+    }
+    if (todayStr < openDates[targetIdx].date) {
+        alert(`해당 문제는 ${openDates[targetIdx].label} 00시에 공개됩니다. 조금만 기다려주세요! 🔥`);
+        return;
+    }
+    allowedMaxIdx = getTodayMaxIdx();
+    startQuiz('multi1', targetIdx);
+}
+
+function startQuizWithTodayMax() {
+    allowedMaxIdx = getTodayMaxIdx();
+    startQuiz('multi1', 0);
+}
+
+function hideAllPages() {
+    ALL_PAGES.forEach(id => {
+        const p = document.getElementById(id);
+        if (p) p.style.display = 'none';
+    });
+}
+
+function switchWeek(w) {
+    curWeek = w;
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i+1 === w));
+    showMenu();
+}
+
+function showMenu() {
+    hideAllPages();
+    document.getElementById('menu-page').style.display = 'block';
+    document.getElementById('day-nav-wrapper').style.display = 'none';
+    document.getElementById('ox-title').style.display = 'none';
+    document.getElementById('m-btn-label').innerText = `소득세 ${curWeek}주차`;
+    document.getElementById('o-btn-label').innerText = `소득세 ${curWeek}주차 OX 퀴즈`;
+    updateAttendanceBar();
+}
+
+function startQuiz(type, index = 0) {
+    curType = type; curIdx = index; userAnswers = {}; clickCounts = {};
+    const data = weekData[curWeek][type];
+    if(!data || data.length === 0) { alert("준비 중입니다."); return; }
+    
+    hideAllPages();
+    document.getElementById('quiz-page').style.display = 'flex';
+    if(type === 'ox1') {
+        document.getElementById('ox-title').style.display = 'block';
+        document.getElementById('ox-title').innerText = `소득세 ${curWeek}주차 핵심 OX`;
+        document.getElementById('options-ox').style.display = 'flex';
+        document.getElementById('options-multi').style.display = 'none';
+        document.getElementById('day-nav-wrapper').style.display = 'none';
+    } else {
+        document.getElementById('day-nav-wrapper').style.display = 'flex';
+        document.getElementById('options-ox').style.display = 'none';
+        document.getElementById('options-multi').style.display = 'grid';
+        document.getElementById('ox-title').style.display = 'none';
+    }
+    showQ();
+}
+
+function showQ() {
+    const data = weekData[curWeek][curType][curIdx];
+    document.getElementById('q-text').innerText = data.q;
+    document.getElementById('exp-box').style.display = 'none';
+    const dayCircles = document.querySelectorAll('.day-circle');
+    dayCircles.forEach((c, i) => c.classList.toggle('active', i <= curIdx));
+    
+    if(curType === 'ox1') {
+        document.getElementById('btn-O').className = 'ox-btn';
+        document.getElementById('btn-X').className = 'ox-btn';
+    } else {
+        const mBox = document.getElementById('options-multi');
+        mBox.innerHTML = '';
+        data.choices.forEach((txt, i) => {
+            const isStarred = checkIsStarred(curIdx, i+1);
+            mBox.innerHTML += `
+            <div class="choice-item">
+                <div style="display:flex; align-items:center; flex:1;" onclick="handleMulti(${i+1})">
+                    <div class="choice-num">${i+1}</div>
+                    <div style="text-align:left;">${txt}</div>
+                </div>
+                <span class="star-btn ${isStarred?'active':''}" onclick="toggleStar(event, ${curIdx}, ${i+1})">${isStarred?'★':'☆'}</span>
+            </div>
+            <div id="e-${i+1}" class="explanation-box" style="font-size:0.9rem"> ${data.exps[i]}</div>`;
+        });
+    }
+    document.getElementById('prev-btn').disabled = (curIdx === 0);
+    
+    if (curIdx === weekData[curWeek][curType].length - 1 || (curType === 'multi1' && curIdx === allowedMaxIdx)) {
+        document.getElementById('next-btn').innerText = '학습 종료';
+    } else {
+        document.getElementById('next-btn').innerText = '다음 ▶';
+    }
+}
+
+function handleMulti(n) {
+    const targetExp = document.getElementById(`e-${n}`);
+    const targetChoice = document.querySelectorAll('.choice-item')[n-1];
+    const data = weekData[curWeek][curType][curIdx];
+    targetExp.style.display = (targetExp.style.display === 'block') ? 'none' : 'block';
+    if(userAnswers[curIdx] === true || (clickCounts[curIdx] || 0) >= 2) return;
+    clickCounts[curIdx] = (clickCounts[curIdx] || 0) + 1;
+    if(n === data.a) {
+        userAnswers[curIdx] = true;
+        document.getElementById('snd-correct').play();
+        targetChoice.classList.add('selected');
+        createFirework(targetChoice.querySelector('.choice-num'));
+    } else {
+        saveToMyOnly(curIdx, n, false);
+        if(clickCounts[curIdx] >= 2) userAnswers[curIdx] = false;
+    }
+}
+
+function saveToMyOnly(qIdx, oIdx, isStar) {
+    let storage = JSON.parse(localStorage.getItem('my_only_raw') || "[]");
+    if(!storage.find(d => d.w===curWeek && d.t===curType && d.q===qIdx && d.o===oIdx)) {
+        storage.push({ w:curWeek, t:curType, q:qIdx, o:oIdx, s:isStar, d:new Date().toLocaleDateString() });
+        localStorage.setItem('my_only_raw', JSON.stringify(storage));
+    }
+}
+
+function checkIsStarred(q, o) {
+    return JSON.parse(localStorage.getItem('my_only_raw') || "[]").some(d => d.w===curWeek && d.t===curType && d.q===q && d.o===o && d.s===true);
+}
+
+function toggleStar(event, qIdx, oIdx) {
+    event.stopPropagation();
+    const star = event.target;
+    star.classList.toggle('active');
+    if(star.classList.contains('active')) {
+        star.innerText = "★";
+        saveToMyOnly(qIdx, oIdx, true);
+    } else {
+        star.innerText = "☆";
+    }
+}
+
+function handleOX(choice) {
+    const data = weekData[curWeek][curType][curIdx];
+    if(userAnswers[curIdx] === true || (clickCounts[curIdx] || 0) >= 2) {
+        document.getElementById('exp-box').style.display = (document.getElementById('exp-box').style.display === 'block') ? 'none' : 'block';
+        return;
+    }
+    clickCounts[curIdx] = (clickCounts[curIdx] || 0) + 1;
+    const isCorrect = (choice === data.a);
+    if(isCorrect) {
+        userAnswers[curIdx] = true;
+        document.getElementById('snd-correct').play();
+        createFirework(document.getElementById(choice === 'O' ? 'btn-O' : 'btn-X'));
+    } else {
+        saveToMyOnly(curIdx, 9, false);
+        if(clickCounts[curIdx] >= 2) userAnswers[curIdx] = false;
+    }
+    document.getElementById('exp-box').innerText = data.exp;
+    document.getElementById('exp-box').style.display = 'block';
+}
+
+function goPrev() { if(curIdx > 0) { curIdx--; showQ(); } }
+
+function handleNext() { 
+    if (curType === 'multi1' && curIdx === allowedMaxIdx) {
+        finish();
+        return;
+    }
+    if(curIdx < weekData[curWeek][curType].length - 1) { 
+        curIdx++; 
+        showQ(); 
+    } else {
+        finish(); 
+    } 
+}
+
+function finish() {
+    // 🛠️ [점수 버그 전면 수정] 전체 5문제 기준이 아니라, 수험생이 오늘 '실제로 진입해서 풀어낸 문제 수'를 유연하게 계산하도록 변경!
+    // 만약 월요일 도장을 누르면 딱 1문제만 푸니까 total이 1이 되어, 다 맞히면 정상적으로 100점이 나오게 장치 완료!
+    const total = (curType === 'multi1') ? (allowedMaxIdx + 1) : weekData[curWeek][curType].length;
+    let correctCount = 0;
+    for(let k in userAnswers) if(userAnswers[k]) correctCount++;
+    const score = Math.round((correctCount/total)*100);
+    const stampIdx = (curType === 'ox1') ? 5 : curIdx;
+    const saved = JSON.parse(localStorage.getItem(`att_w${curWeek}`) || "{}");
+    saved[stampIdx] = { score: score };
+    if (curType === 'multi1' && stampIdx === 4) {
+        if (score === 100) {
+            for (let i = 0; i <= 4; i++) if (saved.hasOwnProperty(i)) saved[i].score = 100;
+        } else if (score < 50) {
+            for (let i = 0; i <= 4; i++) if (saved.hasOwnProperty(i)) saved[i].score = 0;
+        }
+    }
+    localStorage.setItem(`att_w${curWeek}`, JSON.stringify(saved));
+    updateAttendanceBar();
+    hideAllPages();
+    document.getElementById('result-page').style.display = 'flex';
+    document.getElementById('res-score').innerText = `${score}점`;
+    let m = ""; let i = "";
+    if(score === 100) { m = "완벽합니다!\n지금의 감각을 끝까지 유지하세요! 💯"; i = "✨🎉"; }
+    else if(score >= 80) { m = "우수한 성적입니다!\n실수만 줄이면 충분히 만점도 가능합니다!"; i = "😎🙌"; }
+    else if(score >= 70) { m = "안정적인 점수입니다!\n고득점 굳히기 들어갑시다!"; i = "🎯👍"; }
+    else if(score >= 60) { m = "합격권입니다!\n흔들리지 않게 기초를 한 번 더 다지는 것이 중요합니다!"; i = "✅👏"; }
+    else if(score >= 50) { m = "조금 더 힘내봅시다!\n개념 공부를 조금만 더 보충해볼까요?"; i = "🏃‍♂️🔥"; }
+    else { m = "기초부터 차근차근 다시 시작해봅시다!🌱"; i = "📝🌱"; }
+    document.getElementById('res-comment').innerText = m;
+    document.getElementById('res-img').innerText = i;
+}
+
+function updateAttendanceBar() {
+    const saved = JSON.parse(localStorage.getItem(`att_w${curWeek}`) || "{}");
+    for(let i=0; i<6; i++) {
+        const slot = document.getElementById(`s-${i}`); slot.innerHTML = ''; slot.className = 'stamp-circle';
+        if(saved.hasOwnProperty(i)) {
+            const s = saved[i].score;
+            if(s >= 50) {
+                const img = document.createElement('img');
+                img.src = s === 100 ? STAMPS[100] : (s >= 80 ? STAMPS[80] : STAMPS[50]);
+                if (s >= 80 && s < 100) {
+                    img.style.transform = "scale(0.92)";
+                } else if (s === 100) {
+                    img.style.transform = "scale(1.1)";
+                }
+                slot.appendChild(img);
+            } else { slot.innerText = STAMPS.check; slot.classList.add('check'); }
+        }
+    }
+}
+
+function showMyOnlyPage() {
+    hideAllPages();
+    const myOnlyPage = document.getElementById('my-only-page');
+    if (myOnlyPage) {
+        myOnlyPage.style.display = 'flex';
+        renderWrongAnswers(); 
+    }
+}
+
+function showArchivePage() {
+    hideAllPages();
+    const archivePage = document.getElementById('archive-page');
+    if (archivePage) {
+        archivePage.style.display = 'flex';
+        renderArchiveItems();
+    }
+}
+
+function showAuthPage() {
+    hideAllPages();
+    document.getElementById('member-page').style.display = 'flex';
+}
+
+function handleAuth() {
+    const nameInput = document.getElementById('user-name').value.trim();
+    const codeInput = document.getElementById('user-code').value.trim(); 
+
+    if(!nameInput) { alert("이름을 입력해주세요."); return; }
+
+    if(codeInput === "ft5273") {
+        localStorage.setItem('funfun_user_name', nameInput);
+        localStorage.setItem('funfun_user_code', "ft5273");
+        showMenu();
+        updateWelcomeMessage(nameInput);
+        window.scrollTo(0, 0); 
+    } else {
+        alert("회원번호가 올바르지 않습니다.\n대소문자를 정확히 구분하여 입력해 주세요.");
+    }
+}
+
+function handleMyOnlyClick() {
+    const savedName = localStorage.getItem('funfun_user_name');
+    const savedCode = localStorage.getItem('funfun_user_code');
+    if (savedName && savedCode === "ft5273") { showMyOnlyPage(); } else { showAuthPage(); }
+}
+
+function renderWrongAnswers() {
+    const listArea = document.getElementById('wrong-answer-list');
+    const subtitleArea = document.getElementById('my-only-subtitle');
+    if (!listArea) return;
+    
+    const rawData = JSON.parse(localStorage.getItem('my_only_raw') || "[]");
+    if (subtitleArea) {
+        subtitleArea.innerHTML = rawData.length === 0 
+            ? "복습할 지문이 없습니다. 😊" 
+            : `총 <span style="color:var(--my-only-pink); font-weight:800;">${rawData.length}개</span>의 지문을 점검 중입니다.`;
+    }
+
+    if (rawData.length === 0) {
+        listArea.innerHTML = '<p style="text-align: center; color: #94a3b8; margin-top: 80px;">오답 노트가 비어있습니다.</p>';
+        return;
+    }
+
+    const groupedData = rawData.reduce((acc, item) => {
+        if (!acc[item.w]) acc[item.w] = [];
+        acc[item.w].push(item);
+        return acc;
+    }, {});
+
+    let html = ""; 
+    Object.keys(groupedData).sort().forEach(week => {
+        html += `
+            <div style="background: #fff; border: 1px solid #f1f5f9; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                <div style="font-size: 0.85rem; font-weight: 800; color: var(--my-only-pink); margin-bottom: 15px; border-bottom: 1px solid #fff1f2; padding-bottom: 8px;">
+                    WEEK ${week} 복습 리스트
+                </div>
+        `;
+        groupedData[week].forEach((item) => {
+            const questionObj = weekData[item.w]?.[item.t]?.[item.q];
+            if (questionObj) {
+                const statement = (item.t === 'ox1') ? questionObj.q : questionObj.choices[item.o - 1];
+                let rawExp = (item.t === 'ox1') ? questionObj.exp : questionObj.exps[item.o - 1];
+                let cleanExp = rawExp.replace(/정답입니다!|정답!/g, "").replace(/^해설[:\s]*/, "").trim();
+
+                html += `
+                    <div style="margin-bottom: 22px; text-align: left; position: relative; padding-right: 55px;">
+                        <div style="font-size: 0.92rem; color: #475569; line-height: 1.5; margin-bottom: 8px; font-weight: 700; word-break: keep-all;">
+                            ${statement}
+                        </div>
+                        <div style="font-size: 0.85rem; color: #1e293b; background: #f8fafc; padding: 10px; border-radius: 10px; line-height: 1.4; border-left: 3px solid var(--my-only-pink);">
+                            <span style="font-weight: 800; color: var(--my-only-pink); margin-right: 4px;">➔</span> ${cleanExp}
+                        </div>
+                        <button type="button" onclick="moveToArchiveFromList(${item.w}, '${item.t}', ${item.q})" style="position: absolute; top: 0; right: 0; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 5px 8px; font-size: 0.65rem; color: #64748b; cursor: pointer; font-weight: 700;">보관함</button>
+                    </div>
+                `;
+            }
+        });
+        html += `</div>`; 
+    });
+    listArea.innerHTML = html;
+}
+
+function moveToArchiveFromList(w, t, q) {
+    let raw = JSON.parse(localStorage.getItem('my_only_raw') || "[]");
+    let archive = JSON.parse(localStorage.getItem('my_only_archive') || "[]");
+    const targetIdx = raw.findIndex(item => item.w === w && item.t === t && item.q === q);
+    if (targetIdx > -1) {
+        const movedItem = raw.splice(targetIdx, 1)[0];
+        archive.push(movedItem);
+        localStorage.setItem('my_only_raw', JSON.stringify(raw));
+        localStorage.setItem('my_only_archive', JSON.stringify(archive));
+        renderWrongAnswers(); 
+        alert("보관함으로 이동되었습니다! 😊");
+    }
+}
+
+function renderArchiveItems() {
+    const archiveArea = document.getElementById('archive-list');
+    if (!archiveArea) return;
+    const archiveData = JSON.parse(localStorage.getItem('my_only_archive') || "[]");
+    
+    if (archiveData.length === 0) {
+        archiveArea.innerHTML = '<p style="text-align: center; color: #94a3b8; margin-top: 50px;">보관함이 비어 있습니다. 😊</p>';
+        return;
+    }
+
+    const groupedData = archiveData.reduce((acc, item, idx) => {
+        const week = item.w || "기타";
+        if (!acc[week]) acc[week] = [];
+        acc[week].push({ ...item, originalIdx: idx });
+        return acc;
+    }, {});
+
+    let html = `<p style="color:#475569; font-weight:800; text-align:left; padding:5px 10px; font-size:0.85rem; margin-bottom:10px;">정복 완료된 지문: ${archiveData.length}개</p>`;
+    
+    Object.keys(groupedData).sort().forEach(week => {
+        html += `
+            <div style="background: #fff; border: 1px solid #f1f5f9; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                <div style="font-size: 0.85rem; font-weight: 800; color: #94a3b8; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                    WEEK ${week} 복습 완료
+                </div>
+        `;
+        groupedData[week].forEach((item) => {
+            const questionObj = weekData[item.w]?.[item.t]?.[item.q];
+            if (questionObj) {
+                const statement = (item.t === 'ox1') ? questionObj.q : questionObj.choices[item.o - 1];
+                let rawExp = (item.t === 'ox1') ? questionObj.exp : questionObj.exps[item.o - 1];
+                let cleanExp = rawExp.replace(/정답입니다!|정답!/g, "").replace(/^해설[:\s]*/, "").trim();
+
+                html += `
+                    <div style="margin-bottom: 22px; text-align: left; position: relative; padding-right: 55px;">
+                        <button type="button" onclick="restoreFromArchive(${item.originalIdx})" style="position: absolute; top: 0; right: 0; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 5px 8px; font-size: 0.65rem; color: #3b82f6; cursor: pointer; font-weight: 700;">복원</button>
+                        <div style="font-size: 0.92rem; color: #475569; line-height: 1.5; margin-bottom: 8px; font-weight: 700; word-break: keep-all; padding-right: 10px;">
+                            ${statement}
+                        </div>
+                        <div style="font-size: 0.85rem; color: #1e293b; background: #f8fafc; padding: 10px; border-radius: 10px; line-height: 1.4; border-left: 3px solid #cbd5e1;">
+                            <span style="font-weight: 800; color: #94a3b8; margin-right: 4px;">➔</span> ${cleanExp}
+                        </div>
+                    </div>
+                `;
+            }
+        });
+        html += `</div>`; 
+    });
+    archiveArea.innerHTML = html;
+}
+
+function restoreFromArchive(idx) {
+    let raw = JSON.parse(localStorage.getItem('my_only_raw') || "[]");
+    let archive = JSON.parse(localStorage.getItem('my_only_archive') || "[]");
+    const restoredItem = archive.splice(idx, 1)[0];
+    raw.push(restoredItem);
+    localStorage.setItem('my_only_raw', JSON.stringify(raw));
+    localStorage.setItem('my_only_archive', JSON.stringify(archive));
+    renderArchiveItems();
+    alert("오답노트로 다시 복원되었습니다! 🔄");
+}
+
+function startFlashQuiz() {
+    const data = weekData[curWeek].flash;
+    if (!data || data.length === 0) {
+        alert("이번 주차 플래시 카드는 토요일에 업데이트됩니다. 준비 중입니다!");
+        return;
+    }
+    hideAllPages();
+    document.getElementById('flash-card-page').style.display = 'flex';
+    flashIdx = 0;
+    showFlashCard();
+}
+
+function showFlashCard() {
+    const data = weekData[curWeek].flash;
+    const card = document.getElementById('main-flash-card');
+    card.classList.remove('flipped');
+    document.getElementById('flash-progress').innerText = `${flashIdx + 1} / ${data.length}`;
+    document.getElementById('flash-q-text').innerText = data[flashIdx].q;
+    document.getElementById('flash-hint-text').innerText = ` ${data[flashIdx].h}`;
+    document.getElementById('flash-a-text').innerText = data[flashIdx].a;
+
+    const prevBtn = document.getElementById('flash-prev-btn');
+    if (prevBtn) {
+        if (flashIdx === 0) {
+            prevBtn.disabled = true;
+            prevBtn.style.color = "#cbd5e1"; prevBtn.style.borderColor = "#e2e8f0"; prevBtn.style.background = "#f8fafc";
+        } else {
+            prevBtn.disabled = false;
+            prevBtn.style.color = "var(--point-blue)"; prevBtn.style.borderColor = "var(--soft-blue)"; prevBtn.style.background = "#fff";
+        }
+    }
+}
+
+// 꽃가루 효과 연출 함수 완벽 독립 배치
+function createFirework(parent) {
+    const colors = ['#60a5fa', '#3b82f6', '#4ade80', '#fbbf24', '#f87171'];
+    for(let i=0; i<15; i++) {
+        const p = document.createElement('div'); p.className = 'particle';
+        const angle = Math.random() * Math.PI * 2; const dist = 40 + Math.random() * 40;
+        p.style.setProperty('--tx', `${Math.cos(angle) * dist}px`); p.style.setProperty('--ty', `${Math.sin(angle) * dist}px`);
+        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        p.style.left = '50%'; p.style.top = '50%'; p.style.animation = `firework 0.8s ease-out forwards`;
+        parent.appendChild(p); setTimeout(() => p.remove(), 1000);
+    }
+}
+
+function handleCardClick() {
+    const card = document.getElementById('main-flash-card');
+    if (card.classList.contains('flipped')) { goNextFlash(); } else { card.classList.add('flipped'); }
+}
+
+function goNextFlash() {
+    const data = weekData[curWeek].flash;
+    if (flashIdx < data.length - 1) { flashIdx++; showFlashCard(); } else { finishFlashQuiz(); }
+}
+
+function goPrevFlash() { if (flashIdx > 0) { flashIdx--; showFlashCard(); } }
+
+function finishFlashQuiz() {
+    hideAllPages();
+    document.getElementById('result-page').style.display = 'flex';
+    document.getElementById('res-score').innerText = "⚡ 완료";
+    document.getElementById('res-comment').innerText = "작은 습관이 큰 차이를 만든다!";
+    document.getElementById('res-img').innerText = "⚡";
+}
+
+function updateWelcomeMessage(name) {
+    const welcomeArea = document.getElementById('welcome-message');
+    const sayings = ["작은 습관이 큰 차이를 만듭니다!", "오늘의 노력이 내일의 합격이 됩니다!", "이미 충분히 잘하고 계십니다!", "합격의 그날까지, 끝까지 함께하겠습니다!", "당신의 꿈을 진심으로 응원합니다!"];
+    const randomSaying = sayings[Math.floor(Math.random() * sayings.length)];
+    if (welcomeArea) { welcomeArea.innerHTML = `<span style="color:var(--point-blue); font-weight: 800;">${name} 님,</span><br>${randomSaying}`; }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedName = localStorage.getItem('funfun_user_name');
+    const savedCode = localStorage.getItem('funfun_user_code');
+
+    if(typeof weekData !== 'undefined') {
+        const lastWeek = Object.keys(weekData).length;
+        if(typeof switchWeek === 'function') switchWeek(lastWeek);
+    }
+
+    if (savedName && savedCode === "ft5273") {
+        showMenu(); updateWelcomeMessage(savedName);
+    } else {
+        const welcomeArea = document.getElementById('welcome-message');
+        if (welcomeArea) { welcomeArea.innerHTML = "반갑습니다! 👋<br>오늘도 즐겁게 열공해봐요!"; }
+    }
+});
+</script>
+</body>
+</html>
