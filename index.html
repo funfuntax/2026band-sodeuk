@@ -299,13 +299,22 @@ const openDates = {
 function getTodayMaxIdx() {
     const now = new Date();
     const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const kst = new Date(utc + (3600000 * 9));
+    const kst = new Date(utc + (3600000 * 9)); // 한국 시간 변환
+    
+    // 🛠️ [선생님 핵심 요청 반영] 현재 한국 시각에서 '7시간'을 뺍니다.
+    // 이렇게 하면 오전 6시 59분까지는 전부 '어제 날짜'로 강제 계산됩니다.
+    kst.setHours(kst.getHours() - 7);
+    
+    // 7시간이 빠진 상태의 날짜 문자열 생성 (예: 수요일 오전 6시면 화요일 날짜가 생성됨)
     const todayStr = `${kst.getFullYear()}-${String(kst.getMonth() + 1).padStart(2, '0')}-${String(kst.getDate()).padStart(2, '0')}`;
     const latestWeek = Object.keys(weekData).length;
 
-    if (curWeek < latestWeek || todayStr >= openDates[4].date) {
+    // 1. 해당 주차가 지난 과거 주차라면 수요일이든 금요일이든 무조건 전체 개방(4)
+    if (curWeek < latestWeek) {
         return 4;
     }
+    
+    // 2. 이번 주차 학습일 때는 7시간을 뺀 오늘 날짜를 기준으로만 누적 개방
     let currentMax = 0;
     for (let i = 0; i <= 4; i++) {
         if (todayStr >= openDates[i].date) currentMax = i;
@@ -317,18 +326,25 @@ function checkDateAndStart(targetIdx) {
     const now = new Date();
     const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
     const kst = new Date(utc + (3600000 * 9));
+    
+    // 여기도 동일하게 7시간을 빼서 판정 기준을 아침 7시로 동기화합니다.
+    kst.setHours(kst.getHours() - 7);
     const todayStr = `${kst.getFullYear()}-${String(kst.getMonth() + 1).padStart(2, '0')}-${String(kst.getDate()).padStart(2, '0')}`;
     const latestWeek = Object.keys(weekData).length;
 
-    if (curWeek < latestWeek || todayStr >= openDates[4].date) {
+    // 지난 주차라면 차단 없이 바로 통과
+    if (curWeek < latestWeek) {
         allowedMaxIdx = 4;
         startQuiz('multi1', targetIdx);
         return;
     }
+    
+    // 7시가 안 넘어서 날짜가 아직 도달하지 못했다면 명확하게 차단 멘트 출력
     if (todayStr < openDates[targetIdx].date) {
-        alert(`해당 문제는 ${openDates[targetIdx].label} 00시에 공개됩니다. 조금만 기다려주세요! 🔥`);
+        alert(`해당 문제는 ${openDates[targetIdx].label} 아침 07시에 공개됩니다. 조금만 기다려주세요! 🔥`);
         return;
     }
+    
     allowedMaxIdx = getTodayMaxIdx();
     startQuiz('multi1', targetIdx);
 }
