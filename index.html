@@ -97,7 +97,7 @@ h1 { font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0
 <div id="day-nav-wrapper" class="day-nav" style="display: none;">
 <div class="day-circle">월</div><div class="day-circle">화</div><div class="day-circle">수</div><div class="day-circle">목</div><div class="day-circle">금</div>
 </div>
-<div id="ox-progress" style="display: none; font-size: 1.1rem; font-weight: 800; color: var(--amber-500); margin-bottom: 20px; text-align: center;">1 / 10</div>
+<div id="ox-title" style="display: none; font-size: 1.1rem; font-weight: 800; color: var(--main-sky); margin-bottom: 20px; text-align: left; padding-left: 5px;"></div>
 <div id="q-text" class="question-text"></div>
 <div id="options-multi" class="options-multi" style="display: none;"></div>
 <div id="options-ox" style="display: none; gap: 15px; margin-bottom: 15px;">
@@ -117,7 +117,8 @@ h1 { font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0
         <div class="card" id="main-flash-card">
             <div class="card-face card-front">
                 <div class="flash-q" id="flash-q-text">질문</div>
-                </div>
+                <div class="flash-hint" id="flash-hint-text">힌트</div>
+            </div>
             <div class="card-face card-back">
                 <div class="flash-a" id="flash-a-text">정답</div>
             </div>
@@ -329,9 +330,9 @@ multi1: [
 // 주말 평가: 단답형 플래시 카드 세트 (총 10문항)
 // 요일별 추출 기준: 월1, 화1, 수2, 목3, 금3 (OX 세트와 50% 이상 중복 배제 적용)
  flash: [
-        { q: "부부합산 2주택자가 주택 1채를 월세 임대 시 과세 여부?", a: "과세<br>(2주택자 월세는 금액 상관없이 과세)" },
+        { q: "부부합산 2주택자가 주택 1채를 월세 임대 시 과세 여부?", a: "과세 (2주택자 월세는 금액 상관없이 과세)" },
   { q: "공장재단이나 광업재단 대여 소득의 세법상 항목?", a: "부동산임대업 (사업소득)" },
-  { q: "1주택자의 국외 소재 주택 임대소득 비과세 적용 여부?", a: "적용 배제<br>(국외 주택은 주택 수 관계없이 과세)" },
+  { q: "1주택자의 국외 소재 주택 임대소득 비과세 적용 여부?", a: "배제 (국외 주택은 주택 수 관계없이 과세)" },
   { q: "간주임대료 계산 시 수입이자 등 금융수익 처리 방법?", a: "차감 (이중과세 방지 목적)" },
   { q: "미등기 상태인 부동산임차권을 타인에게 '대여'하고 받는 대금은 세법상 어느 소득에 해당하는가?", a: "사업소득 (부동산임대업)" },
   { q: "공익사업과 관련하여 지상권이나 지역권을 설정하거나 대여하고 받는 소득은 세법상 어느 소득으로 분류되는가?", a: "기타소득 (사업소득 아님)" },
@@ -448,16 +449,17 @@ function startQuiz(type, index = 0) {
     hideAllPages();
     document.getElementById('quiz-page').style.display = 'flex';
     if(type === 'ox1') {
-        document.getElementById('ox-progress').style.display = 'block'; // 🛠️ 진행률 켜기
+        document.getElementById('ox-title').style.display = 'block';
+        document.getElementById('ox-title').innerText = `소득세 ${curWeek}주차 핵심 OX`;
         document.getElementById('options-ox').style.display = 'flex';
         document.getElementById('options-multi').style.display = 'none';
         document.getElementById('day-nav-wrapper').style.display = 'none';
     } else {
-        document.getElementById('ox-progress').style.display = 'none'; // 🛠️ 5지선다에선 끄기
         document.getElementById('day-nav-wrapper').style.display = 'flex';
         document.getElementById('options-ox').style.display = 'none';
         document.getElementById('options-multi').style.display = 'grid';
-        }
+        document.getElementById('ox-title').style.display = 'none';
+    }
     showQ();
 }
 
@@ -472,9 +474,6 @@ function showQ() {
     dayCircles.forEach((c, i) => c.classList.toggle('active', i <= curIdx));
     
     if(curType === 'ox1') {
-        const totalQuizLength = weekData[curWeek][curType].length;
-        document.getElementById('ox-progress').innerText = `${curIdx + 1} / ${totalQuizLength}`;
-        
         document.getElementById('btn-O').className = 'ox-btn';
         document.getElementById('btn-X').className = 'ox-btn';
     } else {
@@ -827,8 +826,9 @@ function showFlashCard() {
     const card = document.getElementById('main-flash-card');
     card.classList.remove('flipped');
     document.getElementById('flash-progress').innerText = `${flashIdx + 1} / ${data.length}`;
-    document.getElementById('flash-q-text').innerHTML = data[flashIdx].q;
-    document.getElementById('flash-a-text').innerHTML = data[flashIdx].a;
+    document.getElementById('flash-q-text').innerText = data[flashIdx].q;
+    document.getElementById('flash-hint-text').innerText = ` ${data[flashIdx].h}`;
+    document.getElementById('flash-a-text').innerText = data[flashIdx].a;
 
     const prevBtn = document.getElementById('flash-prev-btn');
     if (prevBtn) {
