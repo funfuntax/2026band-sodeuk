@@ -97,7 +97,7 @@ h1 { font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0
 <div id="day-nav-wrapper" class="day-nav" style="display: none;">
 <div class="day-circle">월</div><div class="day-circle">화</div><div class="day-circle">수</div><div class="day-circle">목</div><div class="day-circle">금</div>
 </div>
-<div id="ox-title" style="display: none; font-size: 1.1rem; font-weight: 800; color: var(--main-sky); margin-bottom: 20px; text-align: left; padding-left: 5px;"></div>
+<div id="ox-progress" style="display: none; font-size: 1.1rem; font-weight: 800; color: var(--amber-500); margin-bottom: 20px; text-align: center;">1 / 10</div>
 <div id="q-text" class="question-text"></div>
 <div id="options-multi" class="options-multi" style="display: none;"></div>
 <div id="options-ox" style="display: none; gap: 15px; margin-bottom: 15px;">
@@ -117,8 +117,7 @@ h1 { font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0
         <div class="card" id="main-flash-card">
             <div class="card-face card-front">
                 <div class="flash-q" id="flash-q-text">질문</div>
-                <div class="flash-hint" id="flash-hint-text">힌트</div>
-            </div>
+                </div>
             <div class="card-face card-back">
                 <div class="flash-a" id="flash-a-text">정답</div>
             </div>
@@ -275,8 +274,71 @@ multi1: [
                 ]
             }
         ],
-        ox1: [],
-        flash: []
+        ox1: [{
+    q: "주택 1채만을 소유한 거주자가 과세기간 종료일 현재 기준시가 15억원인 해당 주택을 전세금을 받고 임대하여 얻은 소득에 대해서는 소득세가 과세된다.",
+    a: "X",
+    exp: "틀린 지문입니다. 1주택자의 경우 전세금(보증금)에 대한 간주임대료는 주택 수 조건을 충족하지 못하므로 과세되지 않습니다."
+  },
+  {
+    q: "해당 과세기간의 종합소득금액이 있는 거주자는 그 종합소득 과세표준을 다음 연도 5월 1일부터 5월 31일까지 신고하여야 하며, 분리과세 주택임대소득만 있는 경우에는 종합소득 과세표준을 신고할 필요가 없다.",
+    a: "X",
+    exp: "틀린 지문입니다. 분리과세 주택임대소득만 있는 경우에도 종합소득 과세표준 신고 의무가 있습니다."
+  },
+  {
+    q: "3주택 이상을 소유하고 해당 주택의 보증금 등의 합계액이 3억 원 이하인 거주자의 경우 법령에 따라 산정한 간주임대료를 총수입금액에 산입한다.",
+    a: "X",
+    exp: "틀린 지문입니다. 보증금 등에 대한 간주임대료는 '3주택 이상'이면서 '보증금 합계액 3억 원 초과'인 경우에만 수입금액으로 과세됩니다."
+  },
+  {
+    q: "간주임대료 계산 시 3주택 이상 여부를 판정할 때, 1세대당 주거전용면적이 40제곱미터 이하이고 해당 과세기간의 기준시가가 2억 원 이하인 소형주택도 무조건 주택 수에 포함한다.",
+    a: "X",
+    exp: "틀린 지문입니다. 전용면적 40㎡ 이하이면서 기준시가 2억 원 이하인 소형주택은 간주임대료 산정 대상 주택 수에서 제외됩니다."
+  },
+  {
+    q: "공익사업을 위한 토지 등의 취득 및 보상에 관한 법률에 따라 공익사업과 관련하여 지상권을 설정하고 받는 대금은 부동산임대업에서 발생하는 사업소득 과세대상에 해당한다.",
+    a: "X",
+    exp: "틀린 지문입니다. 공익사업과 관련된 지상권 및 지역권의 설정·대여 소득은 사업소득이 아니라 '기타소득'에 해당합니다."
+  },
+  {
+    q: "부동산임차권을 대여하고 받는 대금은 미등기된 자산이라 하더라도 부동산임대업에서 발생하는 사업소득 과세대상에 해당한다.",
+    a: "O",
+    exp: "맞는 지문입니다. 부동산 또는 부동산상의 권리(전세권, 임차권)를 대여하고 발생하는 소득은 등기 여부를 불문하고 사업소득(부동산임대업)으로 과세됩니다."
+  },
+  {
+    q: "자기가 건설한 상가건물에 부속된 영업권을 단독으로 양도하고 받는 대금은 부동산임대업에서 발생하는 사업소득 과세대상에 해당한다.",
+    a: "X",
+    exp: "틀린 지문입니다. 영업권을 단독으로 양도하고 받는 대금은 부동산임대업 사업소득이 아니라 기타소득에 해당합니다."
+  },
+  {
+    q: "부동산임대업에서 발생하는 사업소득의 납세지는 원칙적으로 임대수익이 발생하는 해당 부동산의 소재지로 한다.",
+    a: "X",
+    exp: "틀린 지문입니다. 사업소득(종합소득세)의 납세지는 부동산 소재지가 아니라 해당 거주자의 '주소지'를 관할하는 세무서로 하는 것이 원칙입니다."
+  },
+  {
+    q: "중간예납하는 소득세의 납세의무 성립시기는 중간예납기간(1월 1일 ~ 6월 30일)이 끝나는 때이다.",
+    a: "O",
+    exp: "맞는 지문입니다. 중간예납하는 소득세의 납세의무 성립시기는 중간예납기간이 끝나는 때가 맞습니다."
+  },
+  {
+    q: "거주자의 양도소득에 대한 지방소득세의 납세의무 성립시기는 그 과세표준이 되는 양도소득세의 납세의무가 성립하는 때이다.",
+    a: "O",
+    exp: "맞는 지문입니다. 양도소득에 대한 지방소득세는 본세인 양도소득세의 성립시기와 동일하게 연동됩니다."
+  }
+ ],
+
+// 주말 평가: 단답형 플래시 카드 세트 (총 10문항)
+// 요일별 추출 기준: 월1, 화1, 수2, 목3, 금3 (OX 세트와 50% 이상 중복 배제 적용)
+ flash: [
+        { q: "부부합산 2주택자가 주택 1채를 월세 임대 시 과세 여부?", a: "과세<br>(2주택자 월세는 금액 상관없이 과세)" },
+  { q: "공장재단이나 광업재단 대여 소득의 세법상 항목?", a: "부동산임대업 (사업소득)" },
+  { q: "1주택자의 국외 소재 주택 임대소득 비과세 적용 여부?", a: "적용 배제<br>(국외 주택은 주택 수 관계없이 과세)" },
+  { q: "간주임대료 계산 시 수입이자 등 금융수익 처리 방법?", a: "차감 (이중과세 방지 목적)" },
+  { q: "미등기 상태인 부동산임차권을 타인에게 '대여'하고 받는 대금은 세법상 어느 소득에 해당하는가?", a: "사업소득 (부동산임대업)" },
+  { q: "공익사업과 관련하여 지상권이나 지역권을 설정하거나 대여하고 받는 소득은 세법상 어느 소득으로 분류되는가?", a: "기타소득 (사업소득 아님)" },
+  { q: "미등기 다가구주택의 보유주택 수 계산 원칙?", a: "1개 (전체를 하나의 주택으로 간주)" },
+  { q: "부동산임대업 소득세의 납세의무 성립시기?", a: "과세기간이 끝나는 때 (12월 31일)" },
+  { q: "거주자의 부동산임대업 소득세 납세지 기준?", a: "거주자의 주소지" },
+  { q: "5월 31일까지 수행하는 소득세 신고의 정확한 명칭?", a: "종합소득 과세표준 확정신고" }]
     }
 };
 
@@ -386,17 +448,16 @@ function startQuiz(type, index = 0) {
     hideAllPages();
     document.getElementById('quiz-page').style.display = 'flex';
     if(type === 'ox1') {
-        document.getElementById('ox-title').style.display = 'block';
-        document.getElementById('ox-title').innerText = `소득세 ${curWeek}주차 핵심 OX`;
+        document.getElementById('ox-progress').style.display = 'block'; // 🛠️ 진행률 켜기
         document.getElementById('options-ox').style.display = 'flex';
         document.getElementById('options-multi').style.display = 'none';
         document.getElementById('day-nav-wrapper').style.display = 'none';
     } else {
+        document.getElementById('ox-progress').style.display = 'none'; // 🛠️ 5지선다에선 끄기
         document.getElementById('day-nav-wrapper').style.display = 'flex';
         document.getElementById('options-ox').style.display = 'none';
         document.getElementById('options-multi').style.display = 'grid';
-        document.getElementById('ox-title').style.display = 'none';
-    }
+        }
     showQ();
 }
 
@@ -411,6 +472,9 @@ function showQ() {
     dayCircles.forEach((c, i) => c.classList.toggle('active', i <= curIdx));
     
     if(curType === 'ox1') {
+        const totalQuizLength = weekData[curWeek][curType].length;
+        document.getElementById('ox-progress').innerText = `${curIdx + 1} / ${totalQuizLength}`;
+        
         document.getElementById('btn-O').className = 'ox-btn';
         document.getElementById('btn-X').className = 'ox-btn';
     } else {
@@ -763,9 +827,8 @@ function showFlashCard() {
     const card = document.getElementById('main-flash-card');
     card.classList.remove('flipped');
     document.getElementById('flash-progress').innerText = `${flashIdx + 1} / ${data.length}`;
-    document.getElementById('flash-q-text').innerText = data[flashIdx].q;
-    document.getElementById('flash-hint-text').innerText = ` ${data[flashIdx].h}`;
-    document.getElementById('flash-a-text').innerText = data[flashIdx].a;
+    document.getElementById('flash-q-text').innerHTML = data[flashIdx].q;
+    document.getElementById('flash-a-text').innerHTML = data[flashIdx].a;
 
     const prevBtn = document.getElementById('flash-prev-btn');
     if (prevBtn) {
